@@ -5,7 +5,7 @@ class Category(models.Model):
     categoryName = models.CharField(max_length=30)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    object = models.Manager()
+    objects = models.Manager()
 
 class User(models.Model):
     id = models.AutoField(primary_key=True)
@@ -15,12 +15,12 @@ class User(models.Model):
     bio = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    object = models.Manager()
+    objects = models.Manager()
 
 class WishList(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
-    object = models.Manager()
+    user = models.OneToOneField(User, on_delete = models.CASCADE, null = True, blank = True)
+    objects = models.Manager()
 
 class Book(models.Model):
     id = models.AutoField(primary_key=True)
@@ -30,15 +30,15 @@ class Book(models.Model):
     yearOfPublication = models.IntegerField()
     publisher = models.CharField(max_length = 255)
 
-    category = models.ForeignKey(Category, on_delete = models.CASCADE)
-    wishList = models.ForeignKey(WishList, on_delete = models.CASCADE)
+    category = models.ForeignKey(Category, on_delete = models.CASCADE, null = True, blank = True)
+    wishList = models.ForeignKey(WishList, on_delete = models.CASCADE, null = True, blank = True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    object = models.Manager()
+    objects = models.Manager()
 
 class Rating(models.Model):
     id = models.AutoField(primary_key=True)
     rating = models.SmallIntegerField()
-    user = models.ForeignKey(User, on_delete= models.CASCADE)
-    book = models.ForeignKey(Book, on_delete= models.CASCADE)
-    object = models.Manager()
+    user = models.ForeignKey(User, on_delete= models.CASCADE, null = True, blank = True)
+    book = models.ForeignKey(Book, on_delete= models.CASCADE, null = True, blank = True)
+    objects = models.Manager()
