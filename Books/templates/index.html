@@ -31,5 +31,86 @@
               </form>
             </div>
           </header>
+          <div class="container">
+            <div class="container d-flex justify-content-between">
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Size {{ page_size }}
+            </button>
+          
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <a class="dropdown-item" href="?page_size=5">5</a>
+              <a class="dropdown-item" href="?page_size=10">10</a>
+              <a class="dropdown-item" href="?page_size=50">50</a>
+              <a class="dropdown-item" href="?page_size=100">100</a>
+              <a class="dropdown-item" href="?page_size=0">All</a>
+            </div>
+          </div>
+
+          <nav class="d-flex justify-content-end" aria-label="Page navigation example">
+            <ul class="pagination">
+              
+              {% if page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+              {% endif %}
+              <li class="page-item active">
+                <span class="page-link">
+                  {{ page_obj.number }}
+                </span>
+              </li>
+
+              {% if page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                  <li class="page-item"><a class="page-link" href="#">...</a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+          <div class="container d-flex flex-wrap justify-content-start">
+
+            {% for book in page_obj %}
+              <div class="card m-2" style="width: 18rem;">
+                <img src="{{book.imageUrl}}" class="card-img-top" style="width: 18rem; height: 200px;" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{book.title}} {{page}}</h5>
+                  <p class="card-text">Author: {{book.author}}, Published on {{book.yearOfPublication}}</p>
+                  <p class="card-text">ISBN: {{book.isbn}}</p>
+                </div>
+                <a href="{% url 'view-book' book.id %}" class="btn btn-primary stretched-link">View</a>
+              </div>
+            {% endfor %}
+
+          </div>
+          
+          <nav class="d-flex justify-content-end" aria-label="Page navigation example">
+            <ul class="pagination">
+              
+              {% if page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+              {% endif %}
+              <li class="page-item active">
+                <span class="page-link">
+                  {{ page_obj.number }}
+                </span>
+              </li>
+
+              {% if page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                  <li class="page-item"><a class="page-link" href="#">...</a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+                  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
     </body>
 </html>
