@@ -1,6 +1,6 @@
 import numpy
 import pandas
-from .models import Book, User, Rating
+from .models import Book, Profile, Rating
 from sklearn.metrics.pairwise import cosine_similarity
 
 class Recommender:
@@ -13,7 +13,7 @@ class Recommender:
 
     def __init__(self):
         self.books = pandas.DataFrame(list(Book.objects.all().values()))
-        self.users = pandas.DataFrame(list(User.objects.all().values()))
+        self.users = pandas.DataFrame(list(Profile.objects.all().values()))
         self.ratings = pandas.DataFrame(list(Rating.objects.all().values()))
         self.ratignsWithBooks = self.ratings.merge(self.books, on='isbn')
 

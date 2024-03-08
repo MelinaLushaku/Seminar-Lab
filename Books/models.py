@@ -7,7 +7,7 @@ class Category(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
-class User(models.Model):
+class Profile(models.Model):
     id = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=30)
     lastName = models.CharField(max_length=30)
@@ -18,7 +18,7 @@ class User(models.Model):
 
 class WishList(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, on_delete = models.CASCADE, null = True, blank = True)
+    user = models.OneToOneField(Profile, on_delete = models.CASCADE, null = True, blank = True)
     objects = models.Manager()
 
 class Book(models.Model):
@@ -40,6 +40,6 @@ class Rating(models.Model):
     id = models.AutoField(primary_key=True)
     rating = models.SmallIntegerField()
     isbn = models.CharField(max_length=13)
-    user = models.ForeignKey(User, on_delete= models.CASCADE, null = True, blank = True)
+    user = models.ForeignKey(Profile, on_delete= models.CASCADE, null = True, blank = True)
     book = models.ForeignKey(Book, on_delete= models.CASCADE, null = True, blank = True)
     objects = models.Manager()

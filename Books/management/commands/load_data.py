@@ -5,7 +5,7 @@ from django.core.management import BaseCommand
 ## https://adityakedawat.medium.com/importing-csv-file-into-django-models-using-django-management-command-716eda305e61
 
 # Import the model 
-from Books.models import Book, Rating, User
+from Books.models import Book, Rating, Profile
 import names
 
 ALREDY_LOADED_ERROR_MESSAGE = """
@@ -32,7 +32,7 @@ class Command(BaseCommand):
             print(ALREDY_LOADED_ERROR_MESSAGE)
             return
 
-        if User.objects.exists():
+        if Profile.objects.exists():
             print('user data already loaded...exiting.')
             print(ALREDY_LOADED_ERROR_MESSAGE)
             return
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         for row in reader:
             if (count < limit):
                 count +=1
-                user = User(
+                user = Profile(
                     id = row['User-ID'],
                     firstName = names.get_first_name(),
                     lastName = names.get_last_name(),
@@ -84,7 +84,7 @@ class Command(BaseCommand):
             if (count < limit):
                 if (int(row['User-ID']) <= 1000):
                     count +=1
-                    user = User.objects.get(id=row['User-ID'])
+                    user = Profile.objects.get(id=row['User-ID'])
                     if (user is not None):
                         count +=1
                         rating = Rating(

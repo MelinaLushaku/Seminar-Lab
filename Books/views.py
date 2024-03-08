@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Book
 from django.core.paginator import Paginator
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+
 from Books.recommender_engine import Recommender
-recommender = Recommender()
 
 def index(request):
     books = Book.objects.all()
@@ -23,8 +25,25 @@ def index(request):
 def book_details(request, id):
     book = Book.objects.get(id=id)
     print(book.title)
+    recommender = Recommender()
     recommendedBooks = recommender.getRecommendedBooks(book.title)
     return render(request, 'book.html', context={
         "book": book,
         "recommendedBooks": recommendedBooks
     })
+
+def login_user(request):
+    if (request.method == 'POST'):
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            # A backend authenticated the credentials
+            login(request, user=user)
+    return redirect('/')
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
