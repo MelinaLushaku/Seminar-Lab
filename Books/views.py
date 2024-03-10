@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Book
+from .models import Book, Profile
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
@@ -32,6 +33,15 @@ def book_details(request, id):
         "recommendedBooks": recommendedBooks
     })
 
+def user_profile(request, id):
+    profile = Profile.objects.get(user=id)
+    return render(request, 'profile.html', {
+        "profile": profile,
+    })
+
+def wish_list(request):
+    return render(request, 'wishList.html', {})
+
 def login_user(request):
     if (request.method == 'POST'):
         username = request.POST['username']
@@ -40,8 +50,33 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         print(user)
         if user is not None:
-            # A backend authenticated the credentials
             login(request, user=user)
+    return redirect('/')
+
+
+def register_user(request):
+    if (request.method == 'POST'):
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = User.objects.create_user(
+            username,
+            email,
+            password,
+            first_name = firstname,
+            last_name=lastname,
+        )
+
+        user.save()
+        profile = Profile.objects.create(firstName = firstname, lastName= lastname, user=user)
+        profile.save()
+        if user is not None:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user=user)
     return redirect('/')
 
 def logout_user(request):

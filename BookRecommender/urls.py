@@ -24,5 +24,8 @@ urlpatterns = [
     path('books/<int:id>', views.book_details, name='view-book'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('login-user', views.login_user, name="login"),
-    path('logout-user', views.logout_user, name="logout")
+    path('register-user', views.register_user),
+    path('logout-user', views.logout_user, name="logout"),
+    path('profile/<int:id>', views.user_profile, name="profile"),
+    path('wish-list', views.wish_list),
 ]

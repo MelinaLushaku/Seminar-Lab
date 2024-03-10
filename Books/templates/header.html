@@ -1,61 +1,105 @@
 <header>
-    <nav class="py-2 bg-body-tertiary border-bottom">
-      <div class="container d-flex flex-wrap">
-        <ul class="nav me-auto">
-          <li class="nav-item"><a href="/" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
-          <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Features</a></li>
-          <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Pricing</a></li>
-          <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">FAQs</a></li>
-          <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">About</a></li>
-        </ul>
-        <ul class="nav">
-            {% if user.is_authenticated %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Hi {{ user.username }}
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="#">My Wish List</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/logout-user">Logout</a>
-                    </div>
-                </div>
-            {% else %}
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                <a href="#" class="nav-link link-body-emphasis px-2">Login</a>
-              </button>
-            <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Sign up</a></li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Login Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+  <nav class="py-2 bg-body-tertiary border-bottom">
+    <div class="container d-flex flex-wrap">
+      <ul class="nav me-auto">
+        <li class="nav-item"><a href="/" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">About</a></li>
+      </ul>
+      <ul class="nav">
+          {% if user.is_authenticated %}
+              <div class="btn-group">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Hi {{ user.username }}
+                  </button>
+                  <div class="dropdown-menu">
+                      <a class="dropdown-item" href="{% url 'profile' user.id %}">My Profile</a>
+                      <a class="dropdown-item" href="/wish-list">My Wish List</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="/logout-user">Logout</a>
+                  </div>
+              </div>
+          {% else %}
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+            <a href="#" class="nav-link link-body-emphasis px-2">Login</a>
           </button>
-        </div>
-        <div class="modal-body">
-            <form action="{% url 'login' %}">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Username</label>
-                  <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="dropdown-divider"></div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-        </div>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
+            <a href="#" class="nav-link link-body-emphasis px-2">Signup</a>
+          </button>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="/login-user" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="usernameLoginInput">Username</label>
+              <input type="text" name="username" class="form-control" id="usernameLoginInput" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label for="passLoginInput">Password</label>
+              <input type="password" name="password" class="form-control" id="passLoginInput" placeholder="Password">
+            </div>
+            <div class="dropdown-divider"></div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signupModalLabel">Signup</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="/register-user" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="firstnameInput">First Name</label>
+              <input type="text" name="firstname" class="form-control" id="firstnameInput" placeholder="Enter first name">
+            </div>
+            <div class="form-group">
+              <label for="signupInputEmail1">Last Name</label>
+              <input type="text" name="lastname" class="form-control" id="lastnameInput" placeholder="Enter last name">
+            </div>
+            <div class="form-group">
+              <label for="emailInput">Email</label>
+              <input type="text" name="email" class="form-control" id="emailInput" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label for="usernameInput">Username</label>
+              <input type="text" name="username" class="form-control" id="usernameInput" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+              <label for="passwordInput">Password</label>
+              <input type="password" name="password" class="form-control" id="passwordInput" placeholder="Password">
+            </div>
+            <div class="dropdown-divider"></div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
