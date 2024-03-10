@@ -3,6 +3,115 @@
   <head>
       <meta charset="UTF-8">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+      <style>
+        /* Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light background color */
+    color: #495057; /* Text color */
+}
+
+/* Header Styles - Assuming you have a class "header" for your header */
+.header {
+    background-color: #3498db; /* Header background color */
+    color: #fff; /* Header text color */
+    padding: 10px 20px;
+}
+
+/* Container Styles */
+.container {
+    margin-top: 20px;
+}
+
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination .page-item {
+    margin-right: 10px;
+}
+
+.pagination .page-link {
+    color: #3498db; /* Pagination link color */
+    border: 1px solid #3498db; /* Pagination link border color */
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #3498db; /* Active page background color */
+    border-color: #3498db; /* Active page border color */
+    color: #fff; /* Active page text color */
+}
+
+/* Card Styles */
+.card {
+    width: 18rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.card-text {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.btn-primary.stretched-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* Button with Dropdown Styles */
+.btn-primary.dropdown-toggle {
+    background-color: #3498db; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove button border */
+    padding: 10px 20px; /* Adjust padding for the button */
+    border-radius: 5px; /* Rounded corners for a softer look */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.btn-primary.dropdown-toggle:hover {
+    background-color: #2980b9; /* Button background color on hover */
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    border: 1px solid #bdc3c7; /* Dropdown border color */
+}
+
+.dropdown-item {
+    color: #495057; /* Dropdown item text color */
+}
+
+.dropdown-item:hover {
+    background-color: #3498db; /* Dropdown item hover background color */
+    color: #fff; /* Dropdown item hover text color */
+}
+#sizeButton {
+  height: 40px;
+  margin-top: 20px;
+}
+
+
+      </style>
   </head>
   <body>
     {% block content %}
@@ -11,9 +120,9 @@
 
     
     <div class="container">
-      <div class="container d-flex justify-content-between">
+      <div class="container d-flex justify-content-between" id="containerSize">
         <div class="btn-group">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="sizeButton">
             Size {{ page_size }}
           </button>
         

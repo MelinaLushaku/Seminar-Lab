@@ -1,12 +1,148 @@
 <header>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Your Title{% endblock %}</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        header {
+            background-color: #3498db;
+        }
+
+        nav {
+            padding: 1rem 0;
+        }
+
+        .nav-link {
+            color: #2980b9;
+        }
+
+   
+        .form-control {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-primary {
+            background-color: #2980b9;
+            color: #fff;
+            border: 1px solid #3498db;
+        }
+
+       
+        .dropdown-menu {
+            background-color: #3498db;
+            border: 1px solid #2980b9;
+        }
+
+        .dropdown-item {
+            color: #fff !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: #2980b9;
+            color: #fff !important;
+        }
+
+        #header-btn {
+    background-color: #c8ced2;
+    color: #fff;
+    padding: 12px 24px; 
+    border: 2px solid #c8ced2; 
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    width: 150px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#header-btn:hover {
+    background-color: #3498db;
+    border-color: #3498db; 
+}
+
+
+#loginResgister {
+    background-color: #3498db;
+    color: #fff;
+    padding: 12px 24px; 
+    border: 2px solid #3498db; 
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    width: 150px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, border-color 0.3s ease; 
+}
+
+#loginResgister:hover {
+    background-color: #c8ced2;
+    border-color: #c8ced2; 
+}
+
+form {
+    max-width: 400px; 
+    margin: auto; 
+    padding: 20px; 
+    border: 1px solid #bdc3c7; 
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    background-color: #ecf0f1; 
+}
+
+.form-group {
+    margin-bottom: 15px; 
+}
+
+label {
+    font-weight: bold; 
+}
+
+input.form-control {
+    width: 100%; 
+    padding: 10px; 
+    margin-bottom: 10px;
+    border: 1px solid #dcdde1;
+    border-radius: 3px; 
+}
+
+.dropdown-divider {
+    border-top: 1px solid #dcdde1;
+    margin: 10px 0; 
+}
+
+button.btn-primary {
+    width: 100%; 
+    padding: 12px;
+}
+
+
+
+    </style>
+    {% block head %}{% endblock %}
+</head>
+  <body>
   <nav class="py-2 bg-body-tertiary border-bottom">
-    <div class="container d-flex flex-wrap">
+    <div class="container d-flex flex-wrap" id="header1">
       <ul class="nav me-auto">
-        <li class="nav-item"><a href="/" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Features</a></li>
-        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Pricing</a></li>
-        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">About</a></li>
+        <li class="nav-item" id="header-btn"><a href="/" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
+        <li class="nav-item" id="header-btn"><a href="#" class="nav-link link-body-emphasis px-2">Features</a></li>
+        <li class="nav-item"id="header-btn"><a href="#" class="nav-link link-body-emphasis px-2">Pricing</a></li>
+        <li class="nav-item"id="header-btn"><a href="#" class="nav-link link-body-emphasis px-2">FAQs</a></li>
+        <li class="nav-item"id="header-btn"><a href="#" class="nav-link link-body-emphasis px-2">About</a></li>
       </ul>
       <ul class="nav">
           {% if user.is_authenticated %}
@@ -22,10 +158,10 @@
                   </div>
               </div>
           {% else %}
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-            <a href="#" class="nav-link link-body-emphasis px-2">Login</a>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" id="loginResgister">
+            <a href="#" class="nav-link link-body-emphasis px-2" >Login</a>
           </button>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal" id="loginResgister">
             <a href="#" class="nav-link link-body-emphasis px-2">Signup</a>
           </button>
         {% endif %}
@@ -103,3 +239,4 @@
     </div>
   </div>
 </div>
+</body>
