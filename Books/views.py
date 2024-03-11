@@ -4,6 +4,9 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from .models import Category
+from .categoriesform import CategoryForm
 
 from Books.recommender_engine import Recommender
 
@@ -41,6 +44,9 @@ def user_profile(request, id):
 
 def wish_list(request):
     return render(request, 'wishList.html', {})
+
+def add_book(request):
+    return render(request, 'addBook.html', {})
 
 def login_user(request):
     if (request.method == 'POST'):
@@ -82,3 +88,18 @@ def register_user(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
+
+
+
+def manage_categories(request):
+    categories = Category.objects.all()
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_categories')
+    else:
+        form = CategoryForm()
+
+    return render(request, 'manage_categories.html', {'form': form, 'categories': categories})

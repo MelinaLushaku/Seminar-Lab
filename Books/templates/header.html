@@ -129,6 +129,9 @@ button.btn-primary {
     padding: 12px;
 }
 
+#adminHeader li{
+  width: 250px;
+}
 
 
     </style>
@@ -137,6 +140,14 @@ button.btn-primary {
   <body>
   <nav class="py-2 bg-body-tertiary border-bottom">
     <div class="container d-flex flex-wrap" id="header1">
+      <!-- Admins are created by superuser -->
+      {% if user.is_superuser %}
+      <ul class="nav me-auto" id="adminHeader">
+        <li class="nav-item" id="header-btn"><a href="/" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
+        <li class="nav-item" id="header-btn"><a href="/add-Category" class="nav-link link-body-emphasis px-2">Add Category</a></li>
+        <li  class="nav-item"id="header-btn"><a href="/add-Book" class="nav-link link-body-emphasis px-2">Add Book</a></li>
+      </ul>
+      {% else %}
       <ul class="nav me-auto">
         <li class="nav-item" id="header-btn"><a href="/" class="nav-link link-body-emphasis px-2 active" aria-current="page">Home</a></li>
         <li class="nav-item" id="header-btn"><a href="#" class="nav-link link-body-emphasis px-2">Features</a></li>
@@ -144,6 +155,8 @@ button.btn-primary {
         <li class="nav-item"id="header-btn"><a href="#" class="nav-link link-body-emphasis px-2">FAQs</a></li>
         <li class="nav-item"id="header-btn"><a href="#" class="nav-link link-body-emphasis px-2">About</a></li>
       </ul>
+
+      {% endif %}
       <ul class="nav">
           {% if user.is_authenticated %}
               <div class="btn-group">

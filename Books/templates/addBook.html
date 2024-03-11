@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Add Book</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ecf0f1;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input.form-control {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #dcdde1;
+            border-radius: 3px;
+        }
+
+        button.btn-primary {
+            width: 100%;
+            padding: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    {% block content %}
+    {% include "header.html" %}
+    {% endblock content %}
+    <div class="container">
+        <form action="/add-Book" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="isbnInput">ISBN</label>
+                <input type="text" name="isbn" class="form-control" id="isbnInput" placeholder="Enter ISBN" required>
+            </div>
+            <div class="form-group">
+                <label for="titleInput">Title</label>
+                <input type="text" name="title" class="form-control" id="titleInput" placeholder="Enter title" required>
+            </div>
+            <div class="form-group">
+                <label for="authorInput">Author</label>
+                <input type="text" name="author" class="form-control" id="authorInput" placeholder="Enter author" required>
+            </div>
+            <div class="form-group">
+                <label for="imageUrlInput">Image URL</label>
+                <input type="text" name="imageUrl" class="form-control" id="imageUrlInput" placeholder="Enter image URL" required>
+            </div>
+            <div class="form-group">
+                <label for="yearInput">Year of Publication</label>
+                <input type="text" name="yearOfPublication" class="form-control" id="yearInput" placeholder="Enter year of publication" required>
+            </div>
+            <div class="form-group">
+                <label for="publisherInput">Publisher</label>
+                <input type="text" name="publisher" class="form-control" id="publisherInput" placeholder="Enter publisher" required>
+            </div>
+            <select name="{{ form.category.name }}">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Add Book</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>
