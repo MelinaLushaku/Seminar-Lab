@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Category
 from .categoriesform import CategoryForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import redirect, HttpResponse
 
 from Books.recommender_engine import Recommender
 
@@ -110,11 +112,21 @@ def logout_user(request):
 def manage_categories(request):
     categories = Category.objects.all()
 
+    # Pagination logic
+    paginator = Paginator(categories, 5)  # 10 categories per page
+    page_number = request.GET.get('page')
+    try:
+        categories = paginator.page(page_number)
+    except PageNotAnInteger:
+        categories = paginator.page(1)
+    except EmptyPage:
+        categories = paginator.page(paginator.num_pages)
+
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('manage_categories')
+            form.save()  # Save the form data as a new Category instance
+            return render(request, 'manage_categories.html', {'form': form, 'categories': categories})
     else:
         form = CategoryForm()
 
@@ -134,3 +146,14 @@ def remove_book_to_wishlist(request, id):
     book.wishList = None
     book.save()
     return redirect('/wish-list')
+
+def delete_category(request):
+    if request.method == 'POST':
+        category_id = request.POST.get('category')
+        try:
+            category = Category.objects.get(id=category_id)
+            category.delete()
+            return redirect('manage_categories')
+        except Category.DoesNotExist:
+            return HttpResponse("Category does not exist.", status=404)
+    return HttpResponse("Invalid request method.", status=400)
