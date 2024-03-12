@@ -19,11 +19,11 @@
                 <p class="card-text">Author: {{book.author}}, Published on {{book.yearOfPublication}}</p>
                 <p class="card-text">ISBN: {{book.isbn}}</p>
                 </div>
-                <a href="/wish-list" style="position: absolute; align-self: flex-end; margin: 5px;">
-                <i class="fa fa-heart" style="font-size: x-large; color: crimson;" aria-hidden="true"></i>
+                <a href="{% url 'remove-book' book.id %}" style="align-self: flex-end; margin: 5px;">
+                    <i class="fa fa-trash" style="font-size: xx-large; color: dimgray;" aria-hidden="true"></i>
                 </a>
 
-                <a href="{% url 'remove-book' book.id %}" class="btn btn-primary">Remove</a>
+                <a href="{% url 'view-book' book.id %}" class="btn btn-primary">View</a>
             </div>
             {% endfor %}
         </div>
