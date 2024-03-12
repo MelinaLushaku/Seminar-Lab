@@ -112,6 +112,7 @@ body {
 
 
       </style>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
     {% block content %}
@@ -164,8 +165,18 @@ body {
               <h5 class="card-title">{{book.title}} {{page}}</h5>
               <p class="card-text">Author: {{book.author}}, Published on {{book.yearOfPublication}}</p>
               <p class="card-text">ISBN: {{book.isbn}}</p>
-            </div>
-            <a href="{% url 'view-book' book.id %}" class="btn btn-primary stretched-link">View</a>
+              <p class="card-text">WishList: {{book.wishList.id}}</p>
+            </div>              
+            {% if book.wishList.id == wishList_id %}
+            <a href="{% url 'remove-book' book.id %}" style="align-self: flex-end; margin: 5px;">
+              <i class="fa fa-heart" style="font-size: x-large; color: crimson;" aria-hidden="true"></i>
+            </a>
+            {% else %}
+            <a href="{% url 'save-book' book.id %}" style="align-self: flex-end; margin: 5px;">
+              <i class="fa fa-heart-o" style="font-size: x-large; color: crimson;" aria-hidden="true"></i>
+            </a>
+            {% endif %}
+            <a href="{% url 'view-book' book.id %}" class="btn btn-primary">View</a>
           </div>
         {% endfor %}
 

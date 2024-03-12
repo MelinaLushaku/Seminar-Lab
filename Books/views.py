@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Book, Profile
+from .models import Book, Profile, WishList
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +12,11 @@ from Books.recommender_engine import Recommender
 
 def index(request):
     books = Book.objects.all()
+    
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    wish_list = WishList.objects.get(user=profile)
+    
     page_size = request.GET.get("page_size")
     page_size = int(page_size) if page_size is not None else 10
     if (page_size == 0):
@@ -22,7 +27,8 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     context = {
         "page_obj": page_obj,
-        "page_size": page_size
+        "page_size": page_size,
+        "wishList_id": wish_list.id,
     }
     return render(request, template_name='index.html', context=context)
 
@@ -36,14 +42,21 @@ def book_details(request, id):
         "recommendedBooks": recommendedBooks
     })
 
-def user_profile(request, id):
-    profile = Profile.objects.get(user=id)
+def user_profile(request):
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
     return render(request, 'profile.html', {
         "profile": profile,
     })
 
 def wish_list(request):
-    return render(request, 'wishList.html', {})
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    wish_list = WishList.objects.get(user=profile)
+    books = Book.objects.filter(wishList = wish_list.id)
+    return render(request, 'wishList.html', {
+        "saved_books": books,
+    })
 
 def add_book(request):
     return render(request, 'addBook.html', {})
@@ -54,7 +67,6 @@ def login_user(request):
         password = request.POST['password']
 
         user = authenticate(request, username=username, password=password)
-        print(user)
         if user is not None:
             login(request, user=user)
     return redirect('/')
@@ -77,8 +89,14 @@ def register_user(request):
         )
 
         user.save()
+
+        # Custom profile for user
         profile = Profile.objects.create(firstName = firstname, lastName= lastname, user=user)
         profile.save()
+
+        # Only one wish list per User
+        wishlist = WishList.objects.create(user=profile)
+        wishlist.save()
         if user is not None:
             user = authenticate(request, username=username, password=password)
             if user is not None:
@@ -88,8 +106,6 @@ def register_user(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
-
-
 
 def manage_categories(request):
     categories = Category.objects.all()
@@ -103,3 +119,18 @@ def manage_categories(request):
         form = CategoryForm()
 
     return render(request, 'manage_categories.html', {'form': form, 'categories': categories})
+
+def save_book_to_wishlist(request, id):
+    book = Book.objects.get(id=id)
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    wish_list = WishList.objects.get(user=profile)
+    book.wishList = wish_list
+    book.save()
+    return redirect('/')
+
+def remove_book_to_wishlist(request, id):
+    book = Book.objects.get(id=id)
+    book.wishList = None
+    book.save()
+    return redirect('/wish-list')

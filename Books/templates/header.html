@@ -133,6 +133,15 @@ button.btn-primary {
   width: 250px;
 }
 
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown>.dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+
 
     </style>
     {% block head %}{% endblock %}
@@ -159,17 +168,25 @@ button.btn-primary {
       {% endif %}
       <ul class="nav">
           {% if user.is_authenticated %}
-              <div class="btn-group">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Hi {{ user.username }}
-                  </button>
-                  <div class="dropdown-menu">
-                      <a class="dropdown-item" href="{% url 'profile' user.id %}">My Profile</a>
-                      <a class="dropdown-item" href="/wish-list">My Wish List</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="/logout-user">Logout</a>
-                  </div>
-              </div>
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-mdb-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Hi  {{user.username}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {% if not user.is_superuser %}
+              <li><a class="dropdown-item" href="/profile">My Profile</a></li>
+              <li><a class="dropdown-item" href="/wish-list">My Wish List</a></li>
+              {% endif %}
+              <div class="dropdown-divider"></div>
+              <li><a class="dropdown-item" href="/logout-user">Logout</a></li>
+            </ul>
+          </div>
           {% else %}
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" id="loginResgister">
             <a href="#" class="nav-link link-body-emphasis px-2" >Login</a>
