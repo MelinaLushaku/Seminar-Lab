@@ -14,10 +14,12 @@ from Books.recommender_engine import Recommender
 
 def index(request):
     books = Book.objects.all()
-    
-    user = User.objects.get(username=request.user.username)
-    profile = Profile.objects.get(user=user)
-    wish_list = WishList.objects.get(user=profile)
+    wishlist_id = ""
+    if request.user.is_authenticated:
+        user = User.objects.get(username=request.user.username)
+        profile = Profile.objects.get(user=user)
+        wish_list = WishList.objects.get(user=profile)
+        wishlist_id = wish_list.id
     
     page_size = request.GET.get("page_size")
     page_size = int(page_size) if page_size is not None else 10
@@ -30,7 +32,7 @@ def index(request):
     context = {
         "page_obj": page_obj,
         "page_size": page_size,
-        "wishList_id": wish_list.id,
+        "wishList_id": wishlist_id,
     }
     return render(request, template_name='index.html', context=context)
 
