@@ -35,3 +35,4 @@ urlpatterns = [
     path('manage_categories' , views.manage_categories),
     path('delete_category' , views.manage_categories),
 ]
+ 
