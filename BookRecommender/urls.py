@@ -34,5 +34,6 @@ urlpatterns = [
     path('remove-book/<int:id>', views.remove_book_to_wishlist, name="remove-book"),
     path('manage_categories' , views.manage_categories),
     path('delete_category' , views.manage_categories),
+    path('rate/<int:book_id>' ,views.rate_book,  name="rate-book" )
 ]
  

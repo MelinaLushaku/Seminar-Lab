@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Book, Profile, WishList
+from .models import Book, Profile, WishList, Rating
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -159,3 +159,14 @@ def delete_category(request):
         except Category.DoesNotExist:
             return HttpResponse("Category does not exist.", status=404)
     return HttpResponse("Invalid request method.", status=400)
+
+def rate_book(request, book_id):
+    if request.method =='POST' and request.user.is_authenticated:
+        rating_value = request.POST.get('rating')
+        book = Book.objects.get(id = book_id)
+        user = User.objects.get(username = request.user.username)
+        rating = Rating.objects.create(rating = rating_value, 
+                                       isbn = book.isbn,
+                                        book = book, user = user )
+        rating.save()
+    return redirect(f'/books/{book_id}')
