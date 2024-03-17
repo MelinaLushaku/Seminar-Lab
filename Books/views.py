@@ -49,9 +49,44 @@ def book_details(request, id):
 def user_profile(request):
     user = User.objects.get(username=request.user.username)
     profile = Profile.objects.get(user=user)
-    return render(request, 'profile.html', {
-        "profile": profile,
-    })
+
+    if request.method == 'POST':
+        new_username = request.POST['username']
+        new_email = request.POST['email']
+        new_firstname = request.POST['firstName']
+        new_lastname = request.POST['lastName']
+        bio = request.POST['bio']
+        username_exists = User.objects.filter(username = new_username).exists()
+        email_exists = User.objects.filter(email = new_email).exists()
+
+        if user.username != new_username and username_exists:
+            messages.warning(request, "Username is taken", extra_tags="username")
+            return redirect('/profile')
+
+        if user.email != new_email and email_exists:
+            messages.warning(request, "Email is already taken", extra_tags="email")
+            return redirect('/profile')
+
+        if new_firstname == '' or new_firstname is None:
+            messages.warning(request, "First Name is required", extra_tags="firstname")
+            return redirect('/profile')
+
+        if new_lastname == '' or new_lastname is None:
+            messages.warning(request, "Last Name is required", extra_tags="lastname")
+            return redirect('/profile')
+
+        user.username = new_username
+        user.email = new_email
+        user.save()
+            
+        profile.firstName = new_firstname
+        profile.lastName = new_lastname
+        profile.bio = bio
+        profile.save()
+        return redirect('/profile')
+
+
+    return render(request, 'profile.html', {"profile": profile})
 
 def wish_list(request):
     user = User.objects.get(username=request.user.username)
