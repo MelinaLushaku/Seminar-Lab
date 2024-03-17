@@ -15,7 +15,7 @@ from Books.recommender_engine import Recommender
 def index(request):
     books = Book.objects.all()
     wishlist_id = ""
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not request.user.is_superuser:
         user = User.objects.get(username=request.user.username)
         profile = Profile.objects.get(user=user)
         wish_list = WishList.objects.get(user=profile)
@@ -186,14 +186,15 @@ def remove_book_to_wishlist(request, id):
 
 def delete_category(request):
     if request.method == 'POST':
-        category_id = request.POST.get('category')
+        category_name= request.POST.get('category')
         try:
-            category = Category.objects.get(id=category_id)
+            category = Category.objects.get(categoryName=category_name)
             category.delete()
-            return redirect('manage_categories')
+            return redirect('delete-category') 
         except Category.DoesNotExist:
             return HttpResponse("Category does not exist.", status=404)
-    return HttpResponse("Invalid request method.", status=400)
+    else:
+        return HttpResponse("Invalid request method.", status=400)
 
 def rate_book(request, book_id):
     if request.method =='POST' and request.user.is_authenticated:
