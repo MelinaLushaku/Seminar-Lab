@@ -161,13 +161,12 @@
                 </form>
             </div>
             <div id="forma">
-              
-                <form action="/delete_category" method="post">
+                <form action="/manage_categories" method="post">
                     {% csrf_token %}
                     <label for="category">Select Category to Delete:</label>
                     <select name="category" id="category">
                         {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.categoryName }}</option>
+                        <option value="{{ category.categoryName }}">{{ category.categoryName }}</option>
                         {% endfor %}
                     </select>
                     <input type="submit" value="Delete Category">
