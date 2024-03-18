@@ -84,6 +84,7 @@ def user_profile(request):
         profile.lastName = new_lastname
         profile.bio = bio
         profile.save()
+        messages.success(request, 'Profile is updated successfully.')
         return redirect('/profile')
 
 
@@ -196,6 +197,7 @@ def rate_book(request, book_id):
     return redirect(f'/books/{book_id}')
 
 def add_book(request):
+    categories = Category.objects.all(),
     if request.method == 'POST':
         isbn = request.POST.get('isbn')
         title = request.POST.get('title')
@@ -203,21 +205,24 @@ def add_book(request):
         image_url = request.POST.get('imageUrl')
         year_of_publication = request.POST.get('yearOfPublication')
         publisher = request.POST.get('publisher')
-        category = request.POST.get('category')
+        category_id = request.POST.get('category')
 
-        # Create and save the book object
         book = Book.objects.create(
             isbn=isbn,
             title=title,
             author=author,
-            image_url=image_url,
-            year_of_publication=year_of_publication,
+            imageUrl=image_url,
+            yearOfPublication=year_of_publication,
             publisher=publisher,
-            category=category
+            category_id=category_id
         )
-        return redirect('add_book') 
-    elif request.method == 'GET':
-       
-        return render(request, 'addBook.html')
-    else:
-        return HttpResponse("Method Not Allowed", status=405)
+
+        # Optionally, you can add some validation here before saving the book
+
+        # Display a success message
+        messages.success(request, 'Book added successfully.')
+
+        # Redirect back to the add book page
+        return redirect('add_book')
+
+    return render(request, 'addbook.html')

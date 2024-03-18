@@ -131,6 +131,13 @@
             <input type="text" name="bio" value="{{ profile.bio }}" class="form-control" id="bioInput">
         </div>
         <button type="submit" class="btn btn-primary">Save Changes</button>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
     </form>
     </body>
 </html>

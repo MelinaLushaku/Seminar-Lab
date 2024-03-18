@@ -82,14 +82,24 @@
                 <label for="publisherInput">Publisher</label>
                 <input type="text" name="publisher" class="form-control" id="publisherInput" placeholder="Enter publisher" required>
             </div>
-            <!-- {% csrf_token %} -->
-            <select name="category" id="category">
-                <!-- {% for category in categories %} -->
-                <option value="test"> test</option>
-                <option value="test">test</option>
-                <!-- {% endfor %} -->
-            </select>
+            
+            <div class="form-group">
+                <label for="categorySelect">Category</label>
+                <select name="category" id="categorySelect" class="form-control">
+                    {% for category in categorys %} 
+                    <option value="{{ category.CategoryName }}">{{ category.CategoryName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Add Book</button>
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         </form>
     </div>
 
