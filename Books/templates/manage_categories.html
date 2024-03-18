@@ -158,20 +158,16 @@
                     {{ form.categoryName.label_tag }} {{ form.categoryName }}
                     {{ form.updated_on }}
                     <input type="submit" value="Add Category">
+                    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
                 </form>
             </div>
-            <div id="forma">
-                <form action="/manage_categories" method="post">
-                    {% csrf_token %}
-                    <label for="category">Select Category to Delete:</label>
-                    <select name="category" id="category">
-                        {% for category in categories %}
-                        <option value="{{ category.categoryName }}">{{ category.categoryName }}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Delete Category">
-                </form>
-            </div>
+            
         </div>
         <div id="existingCategories">
 

@@ -28,12 +28,11 @@ urlpatterns = [
     path('logout-user', views.logout_user, name="logout"),
     path('profile', views.user_profile, name="profile"),
     path('wish-list', views.wish_list),
-    path('add-Book' , views.add_book),
     path('add-Category' , views.manage_categories),
     path('save-book/<int:id>', views.save_book_to_wishlist, name="save-book"),
     path('remove-book/<int:id>', views.remove_book_to_wishlist, name="remove-book"),
     path('manage_categories' , views.manage_categories),
-    path('delete_category' , views.manage_categories , name="delete-category"),
-    path('rate/<int:book_id>' ,views.rate_book,  name="rate-book" )
+    path('rate/<int:book_id>' ,views.rate_book,  name="rate-book" ),
+    path('add-book/', views.add_book, name='add_book')
 ]
  

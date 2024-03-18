@@ -9,6 +9,7 @@ from .models import Category
 from .categoriesform import CategoryForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import redirect, HttpResponse
+from django.contrib import messages
 
 from Books.recommender_engine import Recommender
 
@@ -97,8 +98,6 @@ def wish_list(request):
         "saved_books": books,
     })
 
-def add_book(request):
-    return render(request, 'addBook.html', {})
 
 def login_user(request):
     if (request.method == 'POST'):
@@ -162,7 +161,8 @@ def manage_categories(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
-            form.save()  # Save the form data as a new Category instance
+            form.save()  
+            messages.success(request, 'Category added successfully.')  
             return render(request, 'manage_categories.html', {'form': form, 'categories': categories})
     else:
         form = CategoryForm()
@@ -184,18 +184,6 @@ def remove_book_to_wishlist(request, id):
     book.save()
     return redirect('/wish-list')
 
-def delete_category(request):
-    if request.method == 'POST':
-        category_name= request.POST.get('category')
-        try:
-            category = Category.objects.get(categoryName=category_name)
-            category.delete()
-            return redirect('delete-category') 
-        except Category.DoesNotExist:
-            return HttpResponse("Category does not exist.", status=404)
-    else:
-        return HttpResponse("Invalid request method.", status=400)
-
 def rate_book(request, book_id):
     if request.method =='POST' and request.user.is_authenticated:
         rating_value = request.POST.get('rating')
@@ -206,3 +194,30 @@ def rate_book(request, book_id):
                                         book = book, user = user )
         rating.save()
     return redirect(f'/books/{book_id}')
+
+def add_book(request):
+    if request.method == 'POST':
+        isbn = request.POST.get('isbn')
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        image_url = request.POST.get('imageUrl')
+        year_of_publication = request.POST.get('yearOfPublication')
+        publisher = request.POST.get('publisher')
+        category = request.POST.get('category')
+
+        # Create and save the book object
+        book = Book.objects.create(
+            isbn=isbn,
+            title=title,
+            author=author,
+            image_url=image_url,
+            year_of_publication=year_of_publication,
+            publisher=publisher,
+            category=category
+        )
+        return redirect('add_book') 
+    elif request.method == 'GET':
+       
+        return render(request, 'addBook.html')
+    else:
+        return HttpResponse("Method Not Allowed", status=405)
